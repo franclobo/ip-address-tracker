@@ -33,21 +33,25 @@ export default function Home() {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    if (!mapRef.current) {
-      // Si no hay una instancia del mapa, crear una nueva
-      const map = L.map('map').setView([51.505, -0.09], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-      mapRef.current = map; // Asignar la referencia al mapa
-    }
-    return () => {
-      // Destruir el mapa al desmontar el componente
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null; // Limpiar la referencia al mapa
+    if (typeof window !== 'undefined') {
+      // Si el código se está ejecutando en el navegador
+      if (!mapRef.current) {
+        // Si no hay una instancia del mapa, crear una nueva
+        const map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+        mapRef.current = map; // Asignar la referencia al mapa
       }
-    };
+
+      return () => {
+        // Destruir el mapa al desmontar el componente
+        if (mapRef.current) {
+          mapRef.current.remove();
+          mapRef.current = null; // Limpiar la referencia al mapa
+        }
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -59,7 +63,7 @@ export default function Home() {
   const handleIP = () => {
     dispatch(fetchGeo(inputValue));
     // Actualizar el mapa cuando se haga clic en el botón
-    if (mapRef.current && lat && lng) {
+    if (typeof window !== 'undefined' && mapRef.current && lat && lng) {
       mapRef.current.setView([lat, lng], 13);
     } else {
       fetch(`https://geo.ipify.org/api/v1?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${inputValue}`)
