@@ -51,22 +51,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Actualizar el mapa cuando la dirección IP cambie
-    if (mapRef.current && ipAddress) {
-      fetch(`https://geo.ipify.org/api/v2/country?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${ipAddress}`)
-        .then(response => response.json())
-        .then(data => {
-          const { lat, lng } = data.location;
-          mapRef.current!.setView([lat, lng], 13);
-        })
-        .catch(error => console.error('Error fetching geo data:', error));
+    if (typeof window !== 'undefined' && mapRef.current && lat && lng) {
+      mapRef.current.setView([lat, lng], 13);
     }
-  }, [ipAddress]);
+  }, [lat, lng]);
 
   const handleIP = () => {
     dispatch(fetchGeo(inputValue));
     // Actualizar el mapa cuando se haga clic en el botón
-    if (typeof window !== 'undefined' && mapRef.current && lat && lng) {
+    if (mapRef.current && lat && lng) {
       mapRef.current.setView([lat, lng], 13);
     } else {
       fetch(`https://geo.ipify.org/api/v1?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${inputValue}`)
