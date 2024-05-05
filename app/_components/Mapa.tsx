@@ -13,7 +13,7 @@ const Mapa: React.FC<MapaProps> = ({ lat, lng }) => {
   const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
-    if (typeof document !== 'undefined' && mapRef.current == null) {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined' && mapRef.current == null) {
       const map = L.map('map').setView([lat, lng], 13);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
