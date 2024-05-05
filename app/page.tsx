@@ -4,7 +4,11 @@ import { useAppDispatch } from '@/lib/hooks';
 import { fetchGeo } from '@/lib/features/geoSlice';
 import Formulario from './_components/Formulario';
 import Resultados from './_components/Resultados';
-import Mapa from './_components/Mapa';
+
+import dynamic from 'next/dynamic';
+
+const MapaComponent = dynamic(() => import('./_components/Mapa'), { ssr: false });
+
 
 const Home: React.FC = () => {
   const [coordinates, setCoordinates] = useState({ lat: 34.04915, lng: -118.09462 });
@@ -31,7 +35,7 @@ const Home: React.FC = () => {
       <section className="relative flex items-center justify-center w-full">
         <Resultados />
       </section>
-      <Mapa lat={coordinates.lat} lng={coordinates.lng} />
+      <MapaComponent lat={coordinates.lat} lng={coordinates.lng} />
     </main>
   );
 };
