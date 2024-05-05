@@ -18,12 +18,10 @@ const Home: React.FC = () => {
     fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&ipAddress=${inputValue}`)
       .then(response => response.json())
       .then(data => {
-        if (data && data.location) {
-          const { lat, lng } = data.location;
-          setCoordinates({ lat, lng });
-        } else {
-          console.error('Location data not found in API response');
-        }
+        const { lat, lng } = data.location;
+        setCoordinates({ lat, lng });
+        // Dispatch action to update geo data in Redux store
+        dispatch(fetchGeo(inputValue));
       })
       .catch(error => console.error('Error fetching geo data:', error));
   };
