@@ -15,6 +15,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (typeof window === 'undefined') {
+    return null; // Renderizar null en el lado del servidor
+  }
+
   return (
     <html lang="en">
       <head>
