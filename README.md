@@ -32,7 +32,7 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![image](https://github.com/franclobo/ip-address-tracker/assets/58642949/478a3364-e4b7-4fcf-86d5-1ac18844e317)
 
 ### Links
 
