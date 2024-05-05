@@ -34,7 +34,7 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Si el código se está ejecutando en el navegador
+      // Si estamos en el navegador
       if (!mapRef.current) {
         // Si no hay una instancia del mapa, crear una nueva
         const map = L.map('map').setView([51.505, -0.09], 13);
